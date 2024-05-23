@@ -14,7 +14,9 @@ from config import LLM_MODELS
 需求1：在输入框输入内容，点击提交按钮后，能够连接OpenAI的GPT模型，将输入的Query送入大模型，得到回复，并返回到前端
 需求2: 如何把前端的全部参数拿过来做成变量？
 需求3：如何让大模型的对话具备记忆功能？
-需求4：
+需求4：功能优化
+    - 如何添加流式输出
+    
 
 """
 
@@ -56,6 +58,11 @@ with gr.Blocks() as demo:
                                                 maximum=2,
                                                 value=0,
                                                 )
+
+            stream_radio = gr.Radio(label="Stream",
+                                    choices=[True, False],
+                                    value=False,
+                                    )
         # 用户点击事件
         user_submit.click(
             fn=llm_reply,
@@ -66,7 +73,8 @@ with gr.Blocks() as demo:
                 temperature_slider,
                 maximum_token_slider,
                 frequency_penalty_slider,
-                presence_penalty_slider
+                presence_penalty_slider,
+                stream_radio,
             ],
             outputs=[chatbot]
         )
