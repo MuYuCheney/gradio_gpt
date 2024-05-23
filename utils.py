@@ -30,15 +30,18 @@ def llm_reply(chat_history,
     # 用户消息在前端对话框展示
     chat_history.append([user_input, None])
 
+    # 初始化 messages 为空列表
+    messages = []
     # 如果对话历史长度超过1，则遍历历史记录构建 messages
-    messages = [{"role": "user", "content": user_input}]
     if len(chat_history) > 1:
-        messages = []
-        for chat in chat_history:
-            if chat[0] is not None:
-                messages.append({"role": "user", "content": chat[0]})
-            if chat[1] is not None:
-                messages.append({"role": "assistant", "content": chat[1]})
+        for user_msg, assistant_msg in chat_history:
+            if user_msg is not None:
+                messages.append({"role": "user", "content": user_msg})
+            if assistant_msg is not None:
+                messages.append({"role": "assistant", "content": assistant_msg})
+    else:
+        # 如果没有有效的历史记录，则直接使用用户输入
+        messages = [{"role": "user", "content": user_input}]
 
     # 去调用大模型
     gpt_reponse = create_chat_response(messages, model, temperature, max_tokens, frequency_penalty, presence_penalty)
