@@ -1,4 +1,10 @@
-# 版本一：实现一个静态的智能对话机器人的Gradio前端页面
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+@Author: 木羽Cheney
+@Date: 2024-05-23
+@Description: 版本一：实现一个静态的智能对话机器人的Gradio前端页面
+"""
 
 import gradio as gr
 
@@ -26,4 +32,3 @@ with gr.Blocks() as demo:
             gr.Slider(label="Presence penalty")
 
 demo.launch()
-
