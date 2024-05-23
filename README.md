@@ -13,6 +13,9 @@
 
    - pip install gradio==4.31.5
    - pip install openai
+
+- 修改配置项：
+  - create_chat_response()函数中的OpenAI Keys替换成真实有效的
     
 # 3. 项目启动
 
