@@ -13,6 +13,7 @@ from config import LLM_MODELS
 """
 需求1：在输入框输入内容，点击提交按钮后，能够连接OpenAI的GPT模型，将输入的Query送入大模型，得到回复，并返回到前端
 需求2: 如何把前端的全部参数拿过来做成变量？
+需求3：如何让大模型的对话具备记忆功能
 
 """
 
@@ -58,6 +59,7 @@ with gr.Blocks() as demo:
         user_submit.click(
             fn=llm_reply,
             inputs=[
+                chatbot,
                 user_input,
                 model_dropdown,
                 temperature_slider,
