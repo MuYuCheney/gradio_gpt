@@ -3,14 +3,17 @@
 """
 @Author: 木羽Cheney
 @Date: 2024-05-23
-@Description: 版本二：在输入框输入内容，点击提交按钮后，能够连接OpenAI的GPT模型，将输入的Query送入大模型，得到回复，并返回到前端
+@Description: 版本二：接收前端页面中的所有参数作为变量传递到的后端
 """
 
 import gradio as gr
 from utils import llm_reply
+from config import LLM_MODELS
 
 """
 需求1：在输入框输入内容，点击提交按钮后，能够连接OpenAI的GPT模型，将输入的Query送入大模型，得到回复，并返回到前端
+需求2: 如何把前端的全部参数拿过来做成变量？
+
 """
 
 with gr.Blocks() as demo:
@@ -25,24 +28,44 @@ with gr.Blocks() as demo:
 
         # 右侧参数栏
         with gr.Column():
-            gr.Dropdown(
-                choices=["gpt-4", "gpt-3.5"],
-                value="gpt-4",
+            model_dropdown = gr.Dropdown(
+                choices=LLM_MODELS,
+                value=LLM_MODELS[0],
                 label="LLM Model",
                 interactive=True
             )
-            gr.Slider(label="Temperature")
-            gr.Slider(label="Maximum Tokens")
-            gr.Slider(label="Frequency penalty")
-            gr.Slider(label="Presence penalty")
-
-
+            temperature_slider = gr.Slider(label="Temperature",
+                                           minimum=0,
+                                           maximum=2,
+                                           value=0.8,
+                                           )
+            maximum_token_slider = gr.Slider(label="Maximum Tokens",
+                                             minimum=0,
+                                             maximum=8192,
+                                             value=4096,
+                                             )
+            frequency_penalty_slider = gr.Slider(label="Frequency penalty",
+                                                 minimum=-2,
+                                                 maximum=2,
+                                                 value=0,
+                                                 )
+            presence_penalty_slider = gr.Slider(label="Presence penalty",
+                                                minimum=-2,
+                                                maximum=2,
+                                                value=0,
+                                                )
         # 用户点击事件
         user_submit.click(
             fn=llm_reply,
-            inputs=[user_input],
+            inputs=[
+                user_input,
+                model_dropdown,
+                temperature_slider,
+                maximum_token_slider,
+                frequency_penalty_slider,
+                presence_penalty_slider
+            ],
             outputs=[chatbot]
         )
-
 
 demo.launch()
