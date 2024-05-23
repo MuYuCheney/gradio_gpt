@@ -7,7 +7,7 @@
 
 # 2. 环境配置
 
-- 创建Python虚拟环境，安装依赖
+- 创建Python虚拟环境并安装依赖
 
    - pip install gradio==4.31.5
     
