@@ -45,7 +45,7 @@ with gr.Blocks() as demo:
             user_input = gr.Textbox(label="输入框", placeholder="您好，请在这里输入你的问题")
             with gr.Row():
                 user_submit = gr.Button("提交")
-                gr.Button("清除")
+                clear = gr.Button("清除")
 
 
         # 右侧参数栏
@@ -128,6 +128,7 @@ with gr.Blocks() as demo:
             outputs=[chatbot, user_input]
         )
 
+        clear.click(lambda: None, None, chatbot, queue=False)
 
         # 绑定用户上传事件
         file_upload_path.upload(
