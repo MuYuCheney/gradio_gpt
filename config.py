@@ -17,3 +17,10 @@ LLM_MODELS = [
     "gpt-3.5-turbo-0125",
     "gpt-3.5-turbo",
 ]
+
+
+QDRANT_HOST = "localhost"
+QDRANT_POPT = 6333
+QDRANT_SIZE = 1536
+
+FILE_SUFFIX = ['.pdf']
