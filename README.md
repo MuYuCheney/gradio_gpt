@@ -21,6 +21,7 @@
     
 # 3. 项目启动
 
+- 使用Docker启动Qdrant
 - python main.py
 - 打开地址访问：http://127.0.0.1:7865
 

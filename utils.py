@@ -9,6 +9,7 @@
 from gpt_chat_handler import create_chat_response
 from loguru import logger
 from vector_store.qdrant_store import query_retrival
+import gradio as gr
 
 def llm_reply(chat_mode_radio,
               file_upload_path_dataframe,
@@ -30,8 +31,8 @@ def llm_reply(chat_mode_radio,
                 f"\n是否流式输出：{stream}")
 
     # messages = [{"role": "user", "content": user_input}]
-    # 用户消息在前端对话框展示
-    chat_history.append([user_input, None])
+    # 因为有了前置处理，所以这里不需要重置
+    # chat_history.append([user_input, None])
 
     # 初始化 messages 为空列表
     messages = []
@@ -76,12 +77,28 @@ def llm_reply(chat_mode_radio,
             chunk_content = chunk.choices[0].delta.content
             if chunk_content is not None:
                 chat_history[-1][1] += chunk_content
-                yield chat_history
+                yield chat_history, ""
     else:
         chat_history[-1][1] = gpt_reponse
         logger.info(f"对话历史: {chat_history}")
-        yield chat_history
+        yield chat_history, ""
 
+
+
+def show_user_input(chat_history, user_input):
+
+    # 初始化
+    chat_history = [] if not chat_history else chat_history
+
+    # 检查输入
+    if not user_input:
+        gr.Warning("您必须输入需要提问的问题")
+        return chat_history
+
+    # 展示对话消息
+    chat_history.append([user_input, None])
+
+    return chat_history
 
 def generate_response_payload(status_code, message=None, payload=None):
     """
